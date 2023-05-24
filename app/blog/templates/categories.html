@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Categories {% endblock %}
+{% block content %}
+    <div class="list-group mt-8">
+        {% for category in categories %}
+            <a class="list-group-item list-group-item-action" href="{% url 'render_main_page' %}?id={{ category.id }}">
+                {{ category.name }}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
