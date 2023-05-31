@@ -6,18 +6,18 @@ from .forms import *
 # TODO add function thet crates answer
 
 def render_main_page(request):
+
     category_id = request.GET.get('id')
     if category_id:
         questions = get_all_questions_with_answers_for_category(category_id)
     else:
         questions = get_all_questions_with_answers()
-    question_form = QuestionForm()
     print(questions)
     for i in questions:
         print(f'{i} - object')
         print(f'{i.answer_set.all()} - answers')
 
-    return render(request, 'main.html', context={'questions': questions, 'question_form': question_form})
+    return render(request, 'main.html', context={'questions': questions})
 
 
 
@@ -75,3 +75,13 @@ def edit_answer(request, answer_id):
 def user_questions(request):
     questions = get_all_questions_for_user(request.user)
     return render(request, 'user.html', {'questions': questions})
+
+
+def search(request):
+    search_query = request.GET.get('query')
+    questions = get_questions_by_search_query(search_query)
+    return render(request, 'main.html', {'questions': questions})
+
+def ask_question(request):
+    question_form = QuestionForm()
+    return render(request, 'ask_question.html', context={'question_form': question_form})

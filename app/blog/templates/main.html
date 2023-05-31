@@ -5,20 +5,14 @@
 
     {% include 'included/render_messages.html' %}
 
-    <div class="card mb-3">
-        <h4 class="text-center mt-2">Ask a question</h4>
-        <form class="text-center mt-2" method="post" action="/create_question">
-            {% csrf_token %}
-            {{ question_form.as_p }}
-            <input class="btn btn-primary" type="submit" value="Ask">
-        </form>
-    </div>
-
-
     {% for question in questions %}
-        {% include 'included/render_single_question.html' %}
+        <div class="card mb-3">
+            <div class="card-body">
+                {% include 'included/render_single_question.html' %}
+            </div>
+        </div>
     {% endfor %}
-
+{% endblock %}
 <!--                {% for answer in question.answer_set.all %}-->
 <!--                    <div class="card mb-3">-->
 <!--                        <div class="card-body">-->
@@ -43,6 +37,5 @@
 
 <!--            </div>-->
 <!--        </div>-->
-        {% endblock %}
 
 

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import render_main_page, create_question, render_categories_page, create_answer, \
-    render_question_page, user_questions, edit_answer, edit_question
+    render_question_page, user_questions, edit_answer, edit_question, search, ask_question
 
 urlpatterns = [
     path('', render_main_page, name='render_main_page'),
@@ -11,4 +11,6 @@ urlpatterns = [
     path('question/edit/<int:question_id>/', edit_question, name='edit_question'),
     path('answer/edit/<int:answer_id>/', edit_answer, name='edit_answer'),
     path('my_questions', user_questions, name='user_questions'),
+    path('search', search, name='search'),
+    path('ask_question', ask_question, name='ask_question')
 ]
