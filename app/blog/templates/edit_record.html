@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Edit {{ model }}</h1>
-  <form method="post" class="my-4">
+  <h1 style="color: white;">Редагувати</h1>
+  <form style="color: white;" method="post" class="my-4">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button style="color: white;" type="submit" class="btn btn-primary">Зберегти</button>
   </form>
 {% endblock %}

@@ -7,9 +7,9 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = ['title', 'text', 'category']
         labels = {
-            'title': 'Title',
-            'text': 'Text',
-            'category': 'Category'
+            'title': 'Заголовок',
+            'text': 'Текст',
+            'category': 'Категорія'
         }
         category = forms.ModelChoiceField(queryset=Category.objects.all())
         widgets = {

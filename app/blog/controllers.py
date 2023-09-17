@@ -1,9 +1,13 @@
-from .models import Question, Answer, Category
+from django.contrib.auth.models import User
+
+from .models import Question, Answer, Category, Notification
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
 
 
+def get_all_questions():
+    return Question.objects.all().order_by('-up_votes')
 
 def get_all_questions():
     return Question.objects.all()
@@ -68,6 +72,22 @@ def edit_record(request, model_class, form_class, record_id):
     return render(request, 'edit_record.html', {'form': form, 'model': record.__class__.__name__})
 
 
+def delete_record(request, model_class, record_id):
+    record = get_object_or_404(model_class, pk=record_id)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('/my_questions')
+    else:
+        return render(request, 'delete_record.html', {'record': record, 'model': record.__class__.__name__})
+
+
+def get_all_notifications_for_user(user):
+    return Notification.objects.all().filter(Q(to_user=user) and ~Q(from_user=user))
+
+def get_all_answers_for_user(user):
+    return Answer.objects.all().filter(author=user)
+
+
 def get_all_questions_for_user(user):
     return Question.objects.all().filter(author=user)
 
@@ -75,3 +95,20 @@ def get_all_questions_for_user(user):
 def get_questions_by_search_query(query):
     return Question.objects.filter(Q(title__icontains=query) or Q(text__icontains=query))
 
+
+def get_user_by_id(user_id):
+    u = User.objects.get(pk = user_id)
+    print()
+    return User.objects.get(pk=user_id)
+
+
+def create_notification(request, record, action):
+    n = Notification()
+
+    n.from_user = get_user_by_id(request.user.id)
+    n.to_user = record.author
+    n.post_id = record.id
+    n.post_type = type(record).__name__
+    n.action = action
+
+    n.save()

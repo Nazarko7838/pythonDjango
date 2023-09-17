@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 80:5000
+    links:
+      - database
+
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: default
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:

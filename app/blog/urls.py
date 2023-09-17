@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import render_main_page, create_question, render_categories_page, create_answer, \
-    render_question_page, user_questions, edit_answer, edit_question, search, ask_question
+    render_question_page, user_questions, edit_answer, edit_question, search, ask_question, \
+    vote, delete_notification, delete_object
 
 urlpatterns = [
     path('', render_main_page, name='render_main_page'),
@@ -12,5 +13,10 @@ urlpatterns = [
     path('answer/edit/<int:answer_id>/', edit_answer, name='edit_answer'),
     path('my_questions', user_questions, name='user_questions'),
     path('search', search, name='search'),
-    path('ask_question', ask_question, name='ask_question')
+    path('ask_question', ask_question, name='ask_question'),
+    path('<str:object_name>/delete/<int:object_id>/', delete_object, name='delete_object'),
+
+    path('cancel_delete', user_questions, name='cancel_delete'),
+    path('<model>/<action>/<int:record_id>/', vote, name='vote'),
+    path('delete_notification/<int:notification_id>', delete_notification, name='delete_notification')
 ]

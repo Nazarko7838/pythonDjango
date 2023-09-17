@@ -3,13 +3,52 @@
 {% block title %} My questions {% endblock %}
 
 {% block content %}
-    {% for question in questions %}
-
-        <div class="card mb-3">
-            <div class="card-body">
-                {% include 'included/render_single_question.html' %}
-                <a href="question/edit/{{ question.id }}/">Edit</a>
-            </div>
+<div class="container">
+    {% for notification in notifications %}
+        <div id="alert" class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ notification.from_user }} {{ notification.action }}d your {{ notification.post_type }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="deleteNotification({{ notification.id }})">
+            <span aria-hidden="true">&times</span>
+            </button>
         </div>
     {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col">
+        <h3 style="color: white;">Мої питання</h3>
+        {% for question in questions %}
+            <div class="card my-3">
+                <div class="card-body">
+                    {% include 'included/render_single_question.html' %}
+                    <a class="mr-2" href="question/edit/{{ question.id }}/">Редагувати</a>
+                    <a href="question/delete/{{ question.id }}/">Видалити</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="col">
+        <h3 style="color: white;">Мої відповіді</h3>
+        {% for answer in answers %}
+            <div class="card my-3">
+                <div class="card-body">
+                    <p>{{ answer.text }}</p>
+                    <a class="mr-2" href="answer/edit/{{ answer.id }}/">Редагувати</a>
+                    <a href="answer/delete/{{ answer.id }}/">Видалити</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    function deleteNotification(id) {
+          fetch(`http://localhost:8000/delete_notification/${id}`, {
+            mode: 'no-cors'
+          })
+    }
+</script>
+
+
 {% endblock %}
